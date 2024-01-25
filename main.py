@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 # Crear una instancia de la clase Flask
 app = Flask(__name__)
@@ -47,6 +47,53 @@ def sumar(n1,n2):
 def default(d = "Erick"):
     return f"El nombre de Usuario es: {d}"
 
+@app.route("/calcular", methods=["GET", "POST"])
+def calcular():
+    if request.method == "POST":
+        n1 = request.form.get("n1")
+        n2 = request.form.get("n2")
+        operador = request.form.get("operador")
+        if operador == "+":
+            return f"La suma de {n1} + {n2} = {str(int(n1) + int(n2))}"
+        elif operador == "-":
+            return f"La resta de {n1} - {n2} = {str(int(n1) - int(n2))}"
+        elif operador == "*":
+            return f"La multiplicacion de {n1} * {n2} = {str(int(n1) * int(n2))}"
+        else:
+            return f"La division de {n1} / {n2} = {str(int(n1) / int(n2))}"
+    else:
+        return """
+        <form action="/calcular", method="POST">
+            <label>N1:</label>
+            <input type="text" name="n1"><br>
+            <label>N2:</label>
+            <input type="text" name="n2"><br>
+            <input type="submit"/>
+        </form>
+"""
+
+
+@app.route("/operacionBasica")
+def operacionBasica():
+    return render_template("OperacionBasica.html")
+
+@app.route("/resultado", methods=["GET", "POST"])
+def result():
+    if request.method == "POST":
+        n1 = request.form.get("n1")
+        n2 = request.form.get("n2")
+        return f"La multiplicacion de {n1} + {n2} = {str(int(n1) * int(n2))}"
+    else:
+        return """
+        <form action="/calcular", method="POST">
+            <label>N1:</label>
+            <input type="text" name="n1"><br>
+            <label>N2:</label>
+            <input type="text" name="n2"><br>
+            <input type="submit"/>
+        </form>
+"""
+    
 # Verificar si el script se está ejecutando directamente
 if __name__ == "__main__":
     # Iniciar el servidor web incorporado de Flask en el puerto por defecto (5000)

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import forms 
+import math
 
 # Crear una instancia de la clase Flask
 app = Flask(__name__)
@@ -16,9 +17,17 @@ def alumnos():
     # return render_template("alumnos2.html", titulo = titulo, nombres = nombres)
     alumno_clase = forms.UserForm(request.form)
     if request.method == "POST":
-        pass
-    
-    return render_template("alumnos2.html", form = alumno_clase)
+        nom = alumno_clase.nombre.data
+        apa = alumno_clase.apaterno.data
+        ama = alumno_clase.amaterno.data
+        edad = alumno_clase.edad.data
+        email = alumno_clase.email.data
+        print(f'Nombre: {nom}')
+        print(f'Nombre: {apa}')
+        print(f'Nombre: {ama}')
+        print(f'Nombre: {edad}')
+        print(f'Nombre: {email}')
+    return render_template("alumnos2.html", form = alumno_clase, nom=nom, apa=apa, ama=ama, edad=edad, email=email)
 
 @app.route("/maestros")
 def maestros():

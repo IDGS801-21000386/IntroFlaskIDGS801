@@ -15,8 +15,13 @@ def alumnos():
     # titulo = "UTL!!!!!"
     # nombres = ["Erick", "Saul", "Rivera", "Chagoya"]
     # return render_template("alumnos2.html", titulo = titulo, nombres = nombres)
+    nom=""
+    apa=""
+    ama=""
+    edad=""
+    email=""
     alumno_clase = forms.UserForm(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and alumno_clase.validate():
         nom = alumno_clase.nombre.data
         apa = alumno_clase.apaterno.data
         ama = alumno_clase.amaterno.data

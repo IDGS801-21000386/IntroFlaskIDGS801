@@ -1,9 +1,28 @@
 from flask import Flask, render_template, request
+from flask import flash
 import forms 
+from flask_wtf.csrf import CSRFProtect
+from flask import g
 import math
 
 # Crear una instancia de la clase Flask
 app = Flask(__name__)
+
+app.secret_key = "1234"
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
+@app.before_request
+def before_request():
+    g.nombre = "Erick"
+    print("before 1")
+
+@app.after_request
+def after_request(response):
+    print("after 3")    
+    return response
 
 # Definir una ruta y la función asociada a esa ruta
 @app.route("/")
@@ -15,24 +34,29 @@ def alumnos():
     # titulo = "UTL!!!!!"
     # nombres = ["Erick", "Saul", "Rivera", "Chagoya"]
     # return render_template("alumnos2.html", titulo = titulo, nombres = nombres)
+    print(f"Alumno: {g.nombre}")
     nom=""
     apa=""
     ama=""
     edad=""
-    email=""
+    #email=""
     alumno_clase = forms.UserForm(request.form)
     if request.method == "POST" and alumno_clase.validate():
         nom = alumno_clase.nombre.data
         apa = alumno_clase.apaterno.data
         ama = alumno_clase.amaterno.data
         edad = alumno_clase.edad.data
-        email = alumno_clase.email.data
+        #email = alumno_clase.email.data
         print(f'Nombre: {nom}')
-        print(f'Nombre: {apa}')
-        print(f'Nombre: {ama}')
-        print(f'Nombre: {edad}')
-        print(f'Nombre: {email}')
-    return render_template("alumnos2.html", form = alumno_clase, nom=nom, apa=apa, ama=ama, edad=edad, email=email)
+        print(f'Apellido paterno: {apa}')
+        print(f'Apellido materno: {ama}')
+        print(f'Edad: {edad}')
+
+
+        mensaje = f"Bienvenido {nom}"
+        flash(mensaje)
+
+    return render_template("alumnos2.html", form = alumno_clase, nom=nom, apa=apa, ama=ama, edad=edad)
 
 @app.route("/maestros")
 def maestros():

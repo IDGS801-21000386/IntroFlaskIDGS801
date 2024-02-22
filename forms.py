@@ -4,24 +4,25 @@ from flask_wtf import FlaskForm
 
 
 class UserForm(Form):
-    nombre = StringField("nombre", [
+    nombre = StringField("Nombre", [
         validators.DataRequired(message="El campo es requerido"),
-        validators.length(min=4,max=10, message="Ingresa nombre valido")
+        validators.Length(min=4, max=10, message="Ingresa un nombre válido")
     ])
-    email = EmailField("email", [
+    #email = StringField("Email", [
+    #    validators.DataRequired(message="El campo es requerido"),
+    #    validators.Email(message="Ingrese un correo válido")
+    #])
+    apaterno = StringField("Apellido Paterno", [
         validators.DataRequired(message="El campo es requerido"),
-        validators.Email(message="Ingrese in correo valido")
-    ]) 
-    apaterno = TelField("apaterno", [
-        validators.DataRequired(message="El campo es requerido"),
-        validators.length(min=4,max=10, message="Ingresa apellido valido")
+        validators.Length(min=4, max=10, message="Ingresa un apellido válido")
     ])
-    amaterno = TelField("amaterno", [
+    amaterno = StringField("Apellido Materno", [
         validators.DataRequired(message="El campo es requerido"),
-        validators.length(min=4,max=10, message="Ingresa apellido valido")
+        validators.Length(min=4, max=10, message="Ingresa un apellido válido")
     ])
-    edad = IntegerField("edad", [
+    edad = IntegerField("Edad", [
         validators.DataRequired(message="El campo es requerido"),
-        validators.length(min=1,max=2, message="Ingresa una edad valida")
+        validators.NumberRange(min=1, max=99, message="Ingresa una edad válida")
     ])
+
 
